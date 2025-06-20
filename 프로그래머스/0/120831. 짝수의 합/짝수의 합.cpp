@@ -4,8 +4,11 @@
 using namespace std;
 
 int solution(int n) {
-    int k = n/2;
-    int s = k * (k+1);
-    int answer = s;
+    int answer = 0;
+    
+    for (int i = 0; i <= n; i += 2) {
+        answer += i;
+    }
+    
     return answer;
 }
