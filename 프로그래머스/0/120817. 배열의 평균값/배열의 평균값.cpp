@@ -1,13 +1,12 @@
 #include <string>
 #include <vector>
+#include <numeric>
 
 using namespace std;
 
-double solution(vector<int> numbers) {   
-    if (numbers.empty()) return 0.0;
-    
-    double sum = 0.0;
-    for (int x : numbers) { sum += x; }
-    
-    return sum / numbers.size();
+double solution(vector<int> numbers) {
+    double answer = 0;
+    double sum = accumulate(numbers.begin(), numbers.end(), 0.0);
+    answer = sum / numbers.size();
+    return answer;
 }
