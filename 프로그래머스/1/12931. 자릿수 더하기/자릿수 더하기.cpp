@@ -3,12 +3,14 @@
 using namespace std;
 int solution(int n)
 {
-    int sum = 0;
-    
-    for (; n > 0; n = n / 10) {
-        int last = n % 10;
-        sum += last;
+    int answer = 0;
+
+    while(n > 0) {
+        answer += n % 10;
+        n = n / 10;
     }
 
-    return sum;
+    cout << answer << endl;
+
+    return answer;
 }
