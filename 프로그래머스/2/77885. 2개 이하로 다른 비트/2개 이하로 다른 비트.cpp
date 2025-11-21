@@ -14,5 +14,6 @@ vector<long long> solution(vector<long long> numbers) {
             answer.push_back(Result);
         }
     }
+    
     return answer;
 }
