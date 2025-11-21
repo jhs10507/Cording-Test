@@ -1,29 +1,28 @@
 #include <string>
 #include <vector>
-#include <memory.h>
-
+#include <algorithm>
 
 using namespace std;
 
 int solution(int x, int y, int n) {
-    int dp[1'000'001];
-    memset(dp, 1'000'001, 1'000'001 * sizeof(int));
-    
-    dp[y] = 0;
-    for (int i = y; i > x; --i) 
-    {
-        if (i - n > 0)
-            dp[i - n] = min(dp[i - n], dp[i] + 1);
-        
-        if (i % 2 == 0)
-            dp[i / 2] = min(dp[i / 2], dp[i] + 1);
-        
-        if (i % 3 == 0)
-            dp[i / 3] = min(dp[i / 3], dp[i] + 1);
+    int answer = 0;
+    int DP[1000001] = {0};
+    for (int i = 1; i < 1000001; i++)
+        DP[i] = 1000001;
+    DP[y] = 0;
+    for (int i = y; i > x; i--) {
+        if (DP[i] != 1000001) {
+            if (i % 3 == 0)
+                DP[i / 3] = min(DP[i / 3], DP[i] + 1);
+            if (i % 2 == 0)
+                DP[i / 2] = min(DP[i / 2], DP[i] + 1);
+            if (i - n > 0)
+                DP[i - n] = min(DP[i - n], DP[i] + 1);
+        }
     }
+    if (DP[x] == 1000001)
+        DP[x] = -1;
+    answer = DP[x];
     
-    if(dp[x] >= 1'000'001)
-        dp[x] = -1;
-    
-    return dp[x];
+    return answer;
 }
