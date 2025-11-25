@@ -1,15 +1,27 @@
 #include <vector>
+
 using namespace std;
 
-int dfs(vector<int>& numbers, int target, int index, int sum) {
-    if (index == numbers.size()) {      // 기저 조건 : 모든 숫자를 다 사용했을 때
-        return sum == target ? 1 : 0;       // 목표와 같으면 1, 아니면 0
+// 전역변수 answer
+int answer = 0;
+
+void get_target_number(vector<int> numbers, int target, int sum, int index) {
+    // 종료 조건
+    if (index == numbers.size()) {
+        if (sum == target) {
+            answer++;
+        }
+        // 같지 않을 때도 return
+        return;
     }
-    // 재귀 호출 - 현재 숫자를 더하는 경우와 빼는 경우 반환
-    return dfs(numbers, target, index + 1, sum + numbers[index])    
-         + dfs(numbers, target, index + 1, sum - numbers[index]);
+    
+    // 종료 조건이 만족되지 않으면 계속 탐색
+    get_target_number(numbers, target, sum + numbers[index], index + 1);
+    get_target_number(numbers, target, sum - numbers[index], index + 1);
 }
 
 int solution(vector<int> numbers, int target) {
-    return dfs(numbers, target, 0, 0);
+    get_target_number(numbers, target, 0, 0);
+    
+    return answer;
 }
