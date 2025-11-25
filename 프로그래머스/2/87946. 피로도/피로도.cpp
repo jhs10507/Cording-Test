@@ -1,30 +1,25 @@
+#include <string>
 #include <vector>
-#include <algorithm>
+#define MAX 8
 using namespace std;
 
-int solution(int k, vector<vector<int>> dungeons) {
-    int answer = 0;
-    int n = dungeons.size();
+int answer = 0;
+bool visited[MAX] = {0};
+
+void dfs (int cnt, int k, vector<vector<int>> &dungeons) {
+    if (cnt > answer) answer = cnt;
     
-    vector<int> order(n);
-    for (int i = 0; i < n; i++) {
-        order[i] = i;
-    }
-    
-    do {
-        int hp = k;
-        int count = 0;
-        
-        for (int i = 0; i < n; i++) {
-            int idx = order[i];
-            if (hp >= dungeons[idx][0]) {
-                hp -= dungeons[idx][1];
-                count++;
-            }
+    for (int i = 0; i < dungeons.size(); i++) {
+        if (!visited[i] && dungeons[i][0] <= k) {
+            visited[i] = true;
+            dfs(cnt + 1, k - dungeons[i][1], dungeons);
+            visited[i] = false;
         }
-        
-        answer = max(answer, count);
-    } while(next_permutation(order.begin(), order.end()));
+    }
+}
+
+int solution(int k, vector<vector<int>> dungeons) {
+    dfs(0, k, dungeons);
     
     return answer;
 }
