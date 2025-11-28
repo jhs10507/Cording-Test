@@ -1,40 +1,36 @@
 #include <string>
 #include <vector>
 #include <queue>
-#include <algorithm>
+
 using namespace std;
 
 int solution(vector<int> priorities, int location) {
-    int answer = 0;
+    int answer = 1;
+    priority_queue<int> pq;
     queue<pair<int, int>> q;
     
-    for (int i = 0; i < priorities.size(); i++) {
-        q.push({priorities[i], i});
+    int len = priorities.size();
+    for (int i = 0; i < len; i++) {
+        q.push({i, priorities[i]});
+        pq.push(priorities[i]);
     }
     
-    while(!q.empty()) {
-        pair<int, int> current = q.front();
+    int count = 1;
+    while(true) {
+        pair<int, int> temp = q.front();
         q.pop();
         
-        bool hasHigherPriority = false;
-        
-        queue<pair<int, int>> temp = q;
-        while(!temp.empty()) {
-            if (temp.front().first > current.first) {
-                hasHigherPriority = true;
+        if (temp.second != pq.top())
+            q.push(temp);
+        else
+            if (temp.first == location) {
+                answer = count;
                 break;
-            }    
-            temp.pop();
-        }
-        
-        if (hasHigherPriority) {
-            q.push(current);
-        } else {
-            answer++;
-            if (current.second == location) {
-                return answer;
             }
-        }
+            else {
+                count++;
+                pq.pop();
+            }
     }
     
     return answer;
