@@ -1,35 +1,38 @@
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <map>
 
 using namespace std;
+
+map<string, int> wantMap;
+
+bool check(map<string, int> m)
+{
+    for (auto u : wantMap) {
+        if (m.find(u.first) == m.end()) {
+            return false;
+        }
+        else if (m[u.first] != u.second) {
+            return false;
+        }
+    }
+    return true;
+}
 
 int solution(vector<string> want, vector<int> number, vector<string> discount) {
     int answer = 0;
     
-    // want 목록을 해시맵으로 저장
-    unordered_map<string, int> wantMap;
     for (int i = 0; i < want.size(); i++) {
         wantMap[want[i]] = number[i];
     }
-   
-    // 할인 목록을 10일 단위로 탐색
-    for (int i = 0; i + 9 < discount.size(); i++) {
-        unordered_map<string, int> temp;
-        
+    
+    for (int i = 0; i <= discount.size() - 10; i++) {
+        map<string, int> m;
         for (int j = i; j < i + 10; j++) {
-            temp[discount[j]]++;
+            m[discount[j]]++;
         }
-        
-        bool ok = true;
-        for (auto &item : wantMap) {
-            if (temp[item.first] < item.second) {
-                ok = false;
-                break;
-            }
-        }
-        
-        if (ok) answer++;
+        answer += check(m);
+        m.clear();
     }
     
     return answer;
