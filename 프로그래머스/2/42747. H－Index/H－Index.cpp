@@ -1,12 +1,16 @@
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
 int solution(vector<int> citations) {
-    sort(citations.rbegin(), citations.rend()); // 내림차순 정렬
+    int answer = 0;
+    
+    sort(citations.rbegin(), citations.rend());
     
     for (int i = citations.size() - 1; 0 <= i; --i) {
-       if (citations[i] >= i + 1) return i + 1;
+        if (citations[i] >= i + 1) return i + 1;
     }
+    
+    return answer;
 }
