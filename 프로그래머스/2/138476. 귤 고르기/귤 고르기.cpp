@@ -1,24 +1,30 @@
+#include <string>
 #include <vector>
+#include <map>
 #include <algorithm>
 
 using namespace std;
 
 int solution(int k, vector<int> tangerine) {
     int answer = 0;
-    vector<int> check(10000001, 0);
     
-    for (int i = 0; i < tangerine.size(); ++i)
-    {
-        check[tangerine[i]]++;
+    map<int, int> m;
+    for (int i = 0; i < tangerine.size(); i++) {
+        m[tangerine[i]]++;
     }
     
-    sort(check.rbegin(), check.rend());
+    vector<int> v;
+    for (auto u:m) {
+        v.push_back(u.second);
+    }
     
-    for (int i = 0; i < check.size(); ++i)
-    { 
+    sort(v.begin(), v.end(), greater<int>());
+    
+    int cnt = 0;
+    for (int i = 0; i < v.size(); i++) {
+        if (cnt >= k) break;
         answer++;
-        k -= check[i];
-        if (k <= 0) break;
+        cnt += v[i];
     }
     
     return answer;
